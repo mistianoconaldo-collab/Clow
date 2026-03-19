@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialClone Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo">f</div>
+            <input type="text" placeholder="Search Facebook">
+        </div>
+        
+        <div class="nav-middle">
+            <span class="material-icons active">home</span>
+            <span class="material-icons">ondemand_video</span>
+            <span class="material-icons">storefront</span>
+            <span class="material-icons">groups</span>
+        </div>
+
+        <div class="nav-right">
+            <button id="dark-mode-toggle" class="circle-btn">
+                <span class="material-icons">dark_mode</span>
+            </button>
+            
+            <div class="notifications-wrapper">
+                <button id="notif-btn" class="circle-btn">
+                    <span class="material-icons">notifications</span>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div id="notif-dropdown" class="dropdown">
+                    <div class="dropdown-header">
+                        <h3>Notifications</h3>
+                        <a href="#">Mark all as read</a>
+                    </div>
+                    <div class="notif-item">
+                        <div class="profile-pic"></div>
+                        <p><strong>John Smith</strong> liked your post.</p>
+                    </div>
+                    <div class="notif-item">
+                        <div class="profile-pic"></div>
+                        <p><strong>Sarah Wilson</strong> sent a friend request.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-pic main-pic"></div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <aside class="sidebar-left">
+            <div class="menu-item"><span class="material-icons">person</span> Profile</div>
+            <div class="menu-item"><span class="material-icons">group</span> Friends</div>
+            <div class="menu-item"><span class="material-icons">history</span> Memories</div>
+            <div class="menu-item"><span class="material-icons">bookmark</span> Saved</div>
+        </aside>
+
+        <main class="feed">
+            <div class="stories-container">
+                <div class="story create-story">
+                    <div class="story-image"></div>
+                    <div class="story-add">+</div>
+                    <span>Create Story</span>
+                </div>
+                <div class="story">
+                    <div class="story-profile-pic"></div>
+                    <div class="story-bg" style="background-image: url('https://picsum.photos/200/300?random=1')"></div>
+                    <span>User One</span>
+                </div>
+                <div class="story">
+                    <div class="story-profile-pic"></div>
+                    <div class="story-bg" style="background-image: url('https://picsum.photos/200/300?random=2')"></div>
+                    <span>User Two</span>
+                </div>
+            </div>
+
+            <div class="post-box">
+                <div class="post-top">
+                    <div class="profile-pic"></div>
+                    <input type="text" id="post-input" placeholder="What's on your mind?">
+                </div>
+                <hr>
+                <div class="post-actions">
+                    <span>📹 Live</span>
+                    <span>🖼️ Photo</span>
+                    <span>😊 Feeling</span>
+                </div>
+            </div>
+
+            <div id="feed-anchor"></div> <div class="post">
+                <div class="post-header">
+                    <div class="profile-pic"></div>
+                    <div><strong>Jane Doe</strong><br><small>5 mins ago</small></div>
+                </div>
+                <div class="post-content">Welcome to the new interface! Try Dark Mode or making a post.</div>
+                <div class="post-footer">
+                    <button class="like-btn"><span class="material-icons">thumb_up</span> Like</button>
+                    <button><span class="material-icons">chat_bubble_outline</span> Comment</button>
+                </div>
+            </div>
+        </main>
+
+        <aside class="sidebar-right">
+            <h3>Contacts</h3>
+            <div class="contact">🟢 John Smith</div>
+            <div class="contact">🟢 Sarah Wilson</div>
+        </aside>
+    </div>
+
+    <script>
+        // DARK MODE LOGIC
+        const themeBtn = document.getElementById('dark-mode-toggle');
+        themeBtn.onclick = () => {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            themeBtn.innerHTML = `<span class="material-icons">${isDark ? 'light_mode' : 'dark_mode'}</span>`;
+        };
+
+        // NOTIFICATION TOGGLE
+        const notifBtn = document.getElementById('notif-btn');
+        const notifDropdown = document.getElementById('notif-dropdown');
+        notifBtn.onclick = (e) => {
+            e.stopPropagation();
+            notifDropdown.classList.toggle('show');
+        };
+        window.onclick = () => notifDropdown.classList.remove('show');
+
+        // POSTING LOGIC
+        const postInput = document.getElementById('post-input');
+        const feedAnchor = document.getElementById('feed-anchor');
+
+        postInput.onkeypress = (e) => {
+            if (e.key === 'Enter' && postInput.value !== "") {
+                const val = postInput.value;
+                postInput.value = "";
+                const newPost = document.createElement('div');
+                newPost.className = 'post';
+                newPost.innerHTML = `
+                    <div class="post-header">
+                        <div class="profile-pic"></div>
+                        <div><strong>You</strong><br><small>Just now</small></div>
+                    </div>
+                    <div class="post-content">${val}</div>
+                    <div class="post-footer">
+                        <button class="like-btn" onclick="this.style.color='#1877f2'"><span class="material-icons">thumb_up</span> Like</button>
+                        <button><span class="material-icons">chat_bubble_outline</span> Comment</button>
+                    </div>
+                `;
+                feedAnchor.prepend(newPost);
+            }
+        };
+    </script>
+</body>
+</html>
+
